@@ -13,8 +13,6 @@ services:
       - ./database/db:/data/db
       - ./database/dev.archive:/Databases/dev.archive
       - ./database/production:/Databases/production
-    security_opt:
-      - "seccomp:unconfined"
 
   mongo-express:
     image: mongo-express
