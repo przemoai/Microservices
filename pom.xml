@@ -20,7 +20,7 @@
     <modules>
         <module>main</module>
         <module>product-service</module>
-<!--        <module>order-service</module>-->
+        <module>order-service</module>
 <!--        <module>inventory-service</module>-->
     </modules>
 
