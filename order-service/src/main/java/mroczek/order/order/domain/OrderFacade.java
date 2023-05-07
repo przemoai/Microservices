@@ -21,7 +21,7 @@ public class OrderFacade {
     @Transactional
     public void placeOrder(OrderDto orderDto) {
 
-        List<OrderItem> orderItems = orderMapper.toEntity(orderDto.getOrderItemsDto());
+        List<OrderItem> orderItems = orderMapper.toEntity(orderDto.orderItemsDto());
 
         Order order = Order
                 .builder()
