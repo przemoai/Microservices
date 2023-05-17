@@ -10,7 +10,6 @@
 
 	<artifactId>order-service</artifactId>
 	<name>Order</name>
-	<description>Microservices project</description>
 
 	<dependencies>
 		<dependency>
