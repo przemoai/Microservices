@@ -21,7 +21,7 @@ public class OrderFacade {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClientBuilder;
 
     @Transactional
     public void placeOrder(OrderDto orderDto) {
@@ -40,8 +40,8 @@ public class OrderFacade {
                 .toList();
 
 
-        InventoryResponseDto[] inventoryResponse = webClient.get()
-                .uri("http://localhost:8084/api/v1/inventory",
+        InventoryResponseDto[] inventoryResponse = webClientBuilder.build().get()
+                .uri("http://inventory-service/api/v1/inventory",
                         uriBuilder -> uriBuilder.queryParam("sku-code", skuCodes).build())
                 .retrieve()
                 .bodyToMono(InventoryResponseDto[].class)
