@@ -22,7 +22,6 @@
         <org.lombok.verion>1.18.26</org.lombok.verion>
     </properties>
     <modules>
-        <module>main</module>
         <module>product-service</module>
         <module>order-service</module>
         <module>inventory-service</module>
