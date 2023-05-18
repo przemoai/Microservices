@@ -20,11 +20,10 @@ public class OrderFacade {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-
     private final WebClient.Builder webClientBuilder;
 
     @Transactional
-    public void placeOrder(OrderDto orderDto) {
+    public String placeOrder(OrderDto orderDto) {
 
         List<OrderItem> orderItems = orderMapper.toEntity(orderDto.orderItemsDto());
 
@@ -50,12 +49,14 @@ public class OrderFacade {
         boolean allProductsInStock = Arrays.stream(inventoryResponse)
                 .allMatch(InventoryResponseDto::isInStock);
 
-        if (!allProductsInStock) {
-            throw new IllegalArgumentException("Product out of stock");
+        if (allProductsInStock) {
+            Order save = orderRepository.save(order);
+            log.info("Save order {}", save.getId());
+            return "Order placed successfully!";
+        } else {
+            return "Product out of stock";
         }
 
-        Order save = orderRepository.save(order);
-        log.info("Save order {}", save.getId());
     }
 
 }
