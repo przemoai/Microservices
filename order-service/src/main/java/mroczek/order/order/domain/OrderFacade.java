@@ -2,10 +2,12 @@ package mroczek.order.order.domain;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mroczek.order.event.OrderPlacedEvent;
 import mroczek.order.order.dto.InventoryResponseDto;
 import mroczek.order.order.dto.OrderDto;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,6 +26,7 @@ public class OrderFacade {
     private final OrderMapper orderMapper;
     private final WebClient.Builder webClientBuilder;
     private final Tracer tracer;
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
 
     @Transactional
     public String placeOrder(OrderDto orderDto) {
@@ -57,6 +60,7 @@ public class OrderFacade {
 
             if (allProductsInStock) {
                 Order save = orderRepository.save(order);
+                kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
                 log.info("Save order {}", save.getId());
                 return "Order placed successfully!";
             } else {
