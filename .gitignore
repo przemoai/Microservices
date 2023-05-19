@@ -35,3 +35,6 @@ build/
 /src/main/resources/static/
 /database/
 /main/src/main/resources/static/
+/postgres-inventory/
+/postgres-order/
+/mysql_keycloak_data/
